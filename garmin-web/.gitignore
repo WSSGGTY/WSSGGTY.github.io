@@ -1,0 +1,6 @@
+.venv/
+.garmin-private/
+健康快报/
+garmin-status.json
+__pycache__/
+*.zip
