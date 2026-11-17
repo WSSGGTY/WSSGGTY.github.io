@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   日常 · Garmin 健康手记
+  </title>
+  <style>
+   :root {
+    --accent: #396c57;
+    --bg: #f4f3ee;
+    --card: #fff;
+    --text: #24372e;
+    --muted: #727970;
+    --line: #e4e6df;
+    --radius: 22px
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Microsoft YaHei", sans-serif;
+    font-size: 15px
+}
+
+button,
+input,
+select {
+    font: inherit
+}
+
+button,
+select {
+    cursor: pointer
+}
+
+button {
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    background: var(--accent);
+    color: #fff
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: wait
+}
+
+input,
+select {
+    padding: 11px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--text);
+    max-width: 100%
+}
+
+header {
+    padding: 24px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line)
+}
+
+.brand {
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 3px
+}
+
+.brand small {
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 15px
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 36px 24px
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 30px
+}
+
+h1 {
+    font-size: 34px;
+    margin: 8px 0 12px;
+    letter-spacing: -1px
+}
+
+h2 {
+    font-size: 19px;
+    margin: 0 0 20px
+}
+
+p {
+    line-height: 1.8
+}
+
+.muted {
+    color: var(--muted)
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px
+}
+
+.value {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin: 16px 0 5px
+}
+
+.unit {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 400
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    margin-top: 20px
+}
+
+.chart {
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    padding-top: 15px
+}
+
+.barcol {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: center;
+    gap: 8px;
+    min-width: 0
+}
+
+.bar {
+    background: var(--accent);
+    opacity: .65;
+    border-radius: 8px 8px 3px 3px;
+    min-height: 3px
+}
+
+.barcol:last-child .bar {
+    opacity: 1
+}
+
+.barcol span {
+    font-size: 11px;
+    color: var(--muted)
+}
+
+.insight {
+    background: var(--accent);
+    color: #fff
+}
+
+.insight p {
+    opacity: .92
+}
+
+.insight a {
+    color: inherit
+}
+
+.source {
+    font-size: 12px
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap
+}
+
+.settings {
+    margin-top: 20px
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 13px
+}
+
+.wide {
+    grid-column: 1/-1
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: 600
+}
+
+details[open] summary {
+    margin-bottom: 20px
+}
+
+.empty {
+    padding: 38px 0;
+    text-align: center;
+    color: var(--muted)
+}
+
+footer {
+    margin-top: 28px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8
+}
+
+a {
+    color: var(--accent)
+}
+
+#notice {
+    min-height: 24px;
+    margin-top: 14px;
+    font-size: 13px
+}
+
+body.compact .card {
+    padding: 16px
+}
+
+body.compact main {
+    padding-top: 20px
+}
+
+dialog {
+    width: min(480px, 92vw);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px;
+    background: var(--card);
+    color: var(--text)
+}
+
+dialog::backdrop {
+    background: #18332866
+}
+
+@media(max-width:760px) {
+    .grid {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .layout {
+        grid-template-columns: 1fr
+    }
+
+    .top {
+        align-items: flex-start;
+        flex-direction: column
+    }
+
+    .form {
+        grid-template-columns: 1fr
+    }
+
+    .brand small {
+        display: none
+    }
+
+    h1 {
+        font-size: 28px
+    }
+
+    .card {
+        padding: 18px
+    }
+
+    main {
+        padding: 24px 16px
+    }
+
+    .barcol span {
+        font-size: 10px
+    }
+}
+  </style>
+ </head>
+ <body>
+  <header>
+   <div class="brand">
+    日常
+    <small>
+     GARMIN 健康手记
+    </small>
+   </div>
+   <button id="connect">
+    连接佳明
+   </button>
+  </header>
+  <main>
+   <div class="top">
+    <div>
+     <div class="muted">
+      给身体多一点关注
+     </div>
+     <h1>
+      从了解自己，开始更好的日常。
+     </h1>
+     <div class="muted" id="subtitle">
+      连接你的手表，查看真实数据与近期变化。
+     </div>
+    </div>
+    <div class="controls">
+     <input aria-label="报告日期" id="date" type="date"/>
+     <button id="sync">
+      刷新数据
+     </button>
+    </div>
+   </div>
+   <div class="grid">
+    <section class="card">
+     <div class="muted">
+      睡眠时长
+     </div>
+     <div class="value" id="sleep">
+      —
+     </div>
+     <div class="muted">
+      按 Garmin 睡眠归属日期
+     </div>
+    </section>
+    <section class="card">
+     <div class="muted">
+      当日步数
+     </div>
+     <div class="value" id="steps">
+      —
+     </div>
+     <div class="muted" id="stepGoal">
+      连接后显示目标
+     </div>
+    </section>
+    <section class="card">
+     <div class="muted">
+      静息心率
+     </div>
+     <div class="value" id="hr">
+      —
+     </div>
+     <div class="muted">
+      次 / 分钟
+     </div>
+    </section>
+    <section class="card">
+     <div class="muted">
+      平均压力
+     </div>
+     <div class="value" id="stress">
+      —
+     </div>
+     <div class="muted">
+      Garmin 压力指标
+     </div>
+    </section>
+   </div>
+   <div class="layout">
+    <section class="card">
+     <h2>
+      这一周，走过的每一步
+     </h2>
+     <div class="muted" id="average">
+      最近七天
+     </div>
+     <div class="chart" id="chart">
+      <div class="empty">
+       真实记录将在这里呈现
+      </div>
+     </div>
+    </section>
+    <section class="card insight">
+     <h2 id="adviceTitle">
+      让建议围绕你的目标
+     </h2>
+     <p id="advice">
+      选择当前目标，连接数据后查看对应建议。
+     </p>
+     <div class="source" id="sources">
+     </div>
+    </section>
+   </div>
+   <div class="layout">
+    <section class="card">
+     <h2>
+      我现在最在意的事
+     </h2>
+     <div class="form">
+      <label>
+       阶段目标
+       <select id="goal">
+        <option value="sleep">
+         改善睡眠
+        </option>
+        <option value="energy">
+         改善日间精力
+        </option>
+        <option value="activity">
+         增加日常活动
+        </option>
+       </select>
+      </label>
+      <label>
+       年龄范围
+       <select id="age">
+        <option value="adult">
+         18—60 岁
+        </option>
+        <option value="other">
+         其他年龄
+        </option>
+       </select>
+      </label>
+      <label>
+       计划就寝时间
+       <input id="bedtime" type="time" value="23:00"/>
+      </label>
+      <label>
+       明早起床时间
+       <input id="wake" type="time" value="07:00"/>
+      </label>
+     </div>
+     <p class="muted" id="plan">
+     </p>
+    </section>
+    <details class="card">
+     <summary>
+      调整我的界面
+     </summary>
+     <div class="form">
+      <label>
+       主题
+       <select id="theme">
+        <option value="green">
+         鼠尾草绿
+        </option>
+        <option value="blue">
+         雾蓝
+        </option>
+        <option value="dark">
+         深夜
+        </option>
+       </select>
+      </label>
+      <label>
+       布局
+       <select id="density">
+        <option value="normal">
+         舒展
+        </option>
+        <option value="compact">
+         紧凑
+        </option>
+       </select>
+      </label>
+     </div>
+     <p class="muted">
+      外观与目标设置会保存在当前浏览器。
+     </p>
+     <button id="export">
+      导出我的数据
+     </button>
+     <button id="import">
+      导入报告数据
+     </button>
+     <input accept=".json" hidden="" id="file" type="file"/>
+    </details>
+   </div>
+   <div aria-live="polite" id="notice" role="status">
+   </div>
+   <footer>
+    个人本地版 · 每个使用者在自己的电脑登录佳明。健康数据与登录凭据保存在本机。建议根据公开指南和当前数据生成，效果需结合个人感受持续观察。手表数据用于生活方式参考。
+   </footer>
+  </main>
+  <dialog id="login">
+   <form id="loginForm">
+    <h2>
+     连接 Garmin Connect
+    </h2>
+    <p class="muted">
+     当前支持中国站。首次登录后，可复用本机登录状态。
+    </p>
+    <label>
+     登录邮箱
+     <input autocomplete="username" id="email" required="" type="email"/>
+    </label>
+    <br/>
+    <label>
+     密码
+     <input autocomplete="current-password" id="password" required="" type="password"/>
+    </label>
+    <br/>
+    <div class="controls">
+     <button type="submit">
+      连接并读取
+     </button>
+     <button id="cancel" type="button">
+      取消
+     </button>
+    </div>
+   </form>
+  </dialog>
+  <script>
+   const key = '__SESSION_KEY__';
+const $ = id => document.getElementById(id);
+let payload = null;
+let polling = false;
+const num = x => typeof x === 'number' && Number.isFinite(x) && x >= 0;
+const text = (id, value) => $(id).textContent = value;
+const settingIds = ['goal', 'age', 'bedtime', 'wake', 'theme', 'density'];
+const now = new Date(Date.now() + 8 * 3600000);
+now.setUTCDate(now.getUTCDate() - 1);
+$('date').value = now.toISOString().slice(0, 10);
+$('date').max = $('date').value;
+let saved = {};
+try {
+    saved = JSON.parse(localStorage.getItem('dailySettings') || '{}')
+} catch {}
+for (const id of settingIds) {
+    if (saved[id]) $(id).value = saved[id];
+    $(id).addEventListener('change', () => {
+        localStorage.setItem('dailySettings', JSON.stringify(Object.fromEntries(settingIds.map(x => [x, $(x).value]))));
+        appearance();
+        render()
+    })
+}
+
+function appearance() {
+    const themes = {
+        green: ['#396c57', '#f4f3ee', '#fff', '#24372e', '#727970', '#e4e6df'],
+        blue: ['#456e97', '#f1f4f8', '#fff', '#25384c', '#6e7c8a', '#dee5ed'],
+        dark: ['#5c9279', '#17211e', '#222e29', '#edf3ef', '#b1c0b7', '#3b4941']
+    };
+    const t = themes[$('theme').value] || themes.green;
+    ['--accent', '--bg', '--card', '--text', '--muted', '--line'].forEach((v, i) => document.documentElement.style.setProperty(v, t[i]));
+    document.body.classList.toggle('compact', $('density').value === 'compact')
+}
+
+function advice(sleepSeconds) {
+    const goal = $('goal').value;
+    const bedtime = $('bedtime').value;
+    const wake = $('wake').value;
+    const mins = t => Number(t.split(':')[0]) * 60 + Number(t.split(':')[1]);
+    const opportunity = (mins(wake) - mins(bedtime) + 1440) % 1440;
+    text('plan', `你计划预留 ${(opportunity/60).toFixed(1)} 小时的卧床时间。实际睡眠通常短于卧床时间。`);
+    let message = '';
+    let title = '今晚，给规律作息留出位置';
+    let url = 'https://www.cdc.gov/heart-disease/about/sleep-and-heart-health.html';
+    let label = '依据 · CDC 睡眠与日常习惯';
+    if (goal === 'activity') {
+        title = '把活动安排进日常';
+        message = '可以先安排一次符合自己体力的步行，并逐渐增加活动。WHO 对成年人的一般建议是每周 150—300 分钟中等强度有氧活动。步数无法直接换算成达标的活动分钟数。';
+        url = 'https://www.who.int/publications/i/item/9789240014886';
+        label = '依据 · WHO 身体活动指南'
+    } else if (goal === 'energy') {
+        title = '观察睡眠，也记录白天的感受';
+        message = `尝试保持 ${wake} 左右起床，并在白天安排适量活动和自然光照。记录今天是否困倦，和后续睡眠记录一起观察；单次静息心率或压力分数不足以解释疲劳原因。`
+    } else {
+        message = `以 ${bedtime} 为今晚的计划就寝时间，尽量保持规律。`;
+        if ($('age').value === 'adult' && num(sleepSeconds)) {
+            message += sleepSeconds < 25200 ? '这次手表记录少于 7 小时，低于多数成年人通常需要的睡眠时长，可优先为睡眠预留更充足的时间。' : '这次记录达到 7 小时，但睡眠感受、连续性和白天精力仍值得留意。'
+        } else message += '当前年龄或数据不足，先关注作息规律，暂不套用成人睡眠时长阈值。'
+    }
+    text('adviceTitle', title);
+    text('advice', message);
+    $('sources').replaceChildren();
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = label;
+    $('sources').append(a)
+}
+
+function render() {
+    const day = $('date').value;
+    const summary = payload?.summaries?.[day] || {};
+    const dto = payload?.sleep?.dailySleepDTO || {};
+    const secs = dto.calendarDate === day ? dto.sleepTimeSeconds : null;
+    text('sleep', num(secs) ? `${Math.floor(Math.round(secs/60)/60)}时${Math.round(secs/60)%60}分` : '—');
+    text('steps', num(summary.totalSteps) ? summary.totalSteps.toLocaleString() : '—');
+    text('hr', num(summary.restingHeartRate) ? summary.restingHeartRate : '—');
+    text('stress', num(summary.averageStressLevel) ? summary.averageStressLevel : '—');
+    text('stepGoal', num(summary.dailyStepGoal) ? `当日目标 ${summary.dailyStepGoal.toLocaleString()} 步` : '暂无目标数据');
+    advice(secs);
+    if (!payload) return;
+    text('subtitle', `${day} · Garmin 记录 · ${payload.source||'导入数据'}`);
+    const entries = [];
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(day + 'T00:00:00Z');
+        d.setUTCDate(d.getUTCDate() - i);
+        const k = d.toISOString().slice(0, 10);
+        entries.push([k, payload.summaries[k]?.totalSteps])
+    }
+    const valid = entries.filter(x => num(x[1]));
+    text('average', valid.length ? `有记录 ${valid.length} 天 · 日均 ${(valid.reduce((a,b)=>a+b[1],0)/valid.length).toFixed(1)} 步` : '暂无步数记录');
+    const max = Math.max(1, ...valid.map(x => x[1]));
+    $('chart').replaceChildren();
+    for (const [d, v] of entries) {
+        const col = document.createElement('div');
+        col.className = 'barcol';
+        const value = document.createElement('span');
+        value.textContent = num(v) ? v.toLocaleString() : '缺失';
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = (num(v) ? v / max * 140 : 0) + 'px';
+        const date = document.createElement('span');
+        date.textContent = d.slice(5);
+        col.append(value, bar, date);
+        $('chart').append(col)
+    }
+}
+async function api(path, data) {
+    const r = await fetch(path, {
+        method: data ? 'POST' : 'GET',
+        headers: {
+            'X-Session-Key': key,
+            'Content-Type': 'application/json'
+        },
+        body: data ? JSON.stringify(data) : undefined
+    });
+    if (!r.ok) throw Error('请求未成功，请确认本地程序正在运行。');
+    return r.json()
+}
+async function poll() {
+    try {
+        const state = await api('/api/state');
+        text('notice', state.message);
+        if (state.state === 'mfa') {
+            const code = prompt('请输入 Garmin 验证码');
+            if (code) await api('/api/mfa', {
+                code
+            });
+            else {
+                polling = false;
+                $('sync').disabled = false;
+                return
+            }
+        }
+        if (state.state === 'done') {
+            payload = state.data;
+            render();
+            polling = false
+        } else if (state.state === 'error') {
+            polling = false
+        } else if (state.state === 'idle') {
+            polling = false
+        }
+        if (polling) setTimeout(poll, 1500);
+        else $('sync').disabled = false
+    } catch (e) {
+        text('notice', e.message);
+        polling = false;
+        $('sync').disabled = false
+    }
+}
+async function sync(credentials = {}) {
+    try {
+        $('sync').disabled = true;
+        await api('/api/sync', {
+            date: $('date').value,
+            ...credentials
+        });
+        polling = true;
+        poll()
+    } catch (e) {
+        text('notice', e.message);
+        $('sync').disabled = false
+    }
+}
+$('connect').onclick = () => $('login').showModal();
+$('cancel').onclick = () => $('login').close();
+$('loginForm').onsubmit = e => {
+    e.preventDefault();
+    const credentials = {
+        email: $('email').value,
+        password: $('password').value
+    };
+    $('password').value = '';
+    $('login').close();
+    sync(credentials)
+};
+$('sync').onclick = () => sync();
+$('date').onchange = render;
+$('export').onclick = () => {
+    if (!payload) return text('notice', '请先连接佳明或导入数据。');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], {
+        type: 'application/json'
+    }));
+    a.download = 'garmin-report.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000)
+};
+$('import').onclick = () => $('file').click();
+$('file').onchange = async e => {
+    try {
+        const p = JSON.parse(await e.target.files[0].text());
+        if (!p.summaries || typeof p.summaries !== 'object') throw Error();
+        payload = p;
+        const dates = Object.keys(p.summaries).filter(x => /^\d{4}-\d{2}-\d{2}$/.test(x)).sort();
+        if (!dates.length) throw Error();
+        $('date').value = dates.at(-1);
+        render();
+        text('notice', '已导入数据，文件仅在本地浏览器解析。')
+    } catch {
+        text('notice', '请选择本工具导出的有效 JSON 报告。')
+    }
+};
+appearance();
+render();
+if (key.startsWith('__SESSION')) {
+    $('connect').disabled = true;
+    $('sync').disabled = true;
+    text('notice', '当前为静态展示版，可导入个人 JSON 数据。自动连接佳明请下载源码并运行 start-web.cmd。');
+}
+  </script>
+ </body>
+</html>
